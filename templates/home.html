@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+
+{% block head %}
+<style>
+    body { align-items: center; justify-content: center; overflow: hidden; }
+</style>
+<title>HOME</title>
+{% endblock %}
+
+{% block body %}
+<div id="content" class="container">
+    <div class="d-flex justify-content-center">
+        {% for x in range(0,3) %}
+            <img src="../static/boom.png" width="50" height="50">
+        {% endfor %}
+        <h1>LET THE ANALYSIS BEGIN</h1>
+        {% for x in range(0,3) %}
+            <img src="../static/boom.png" width="50" height="50">
+        {% endfor %}
+    </div>
+    <br>
+    <div>
+        <a href="/submit/ioc">
+            <button type="submit" class="container-fluid btn btn-primary">IOC</button>
+        </a>
+    </div>
+    <br>
+    <div>
+        <a href="/submit/pcap">
+            <button type="submit" class="container-fluid btn btn-primary">PCAP</button>
+        </a>
+    </div>
+    <br>
+    <div>
+        <a href="/submit/file">
+            <button type="submit" class="container-fluid btn btn-primary">File</button>
+        </a>
+    </div>
+</div>
+{% endblock %}

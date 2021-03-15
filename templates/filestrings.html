@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+
+{% block head %}
+<title>File Strings</title>
+{% endblock %}
+
+{% block body %}
+<div class="container-fluid">
+    <div class="row mt-3">
+        {% if result.get('asciiStrings') %}
+        <div class="col-sm-6">
+            <h2>ASCII</h2>
+            <table class="table table-sm table-hover">
+                {% for value in result.get('asciiStrings') %}
+                <tr>
+                    <td style=" word-break: break-all;"> {{ value }}</td>
+                </tr>
+                {% endfor %}
+            </table>
+        </div>
+        {% endif %}
+
+        {% if result.get('uniStrings') %}
+        <div class="col-sm-6">
+            <h2>UNICODE</h2>
+            <table class="table table-sm table-hover">
+                {% for value in result.get('uniStrings') %}
+                <tr>
+                    <td style=" word-break: break-all;"> {{ value }}</td>
+                </tr>
+                {% endfor %}
+            </table>
+        </div>
+        {% endif %}
+
+    </div>
+</div>
+{% endblock %}

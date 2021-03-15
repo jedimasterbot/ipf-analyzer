@@ -1,0 +1,54 @@
+{% extends 'base.html' %}
+
+{% block head %}
+<style>
+    body { align-items: center; justify-content: center; overflow: hidden; }
+
+</style>
+<title>File Submission</title>
+{% endblock %}
+
+{% block body %}
+<div id="content" class="container">
+    <div class="d-flex justify-content-center">
+        <h1>File Analysis</h1>
+    </div>
+    <br>
+    <form action="{{ url_for('fileAnalyzer') }}" method="post" enctype="multipart/form-data">
+        <div class="custom-file">
+            <input class="custom-file-input" type="file" id="file" name="file" autocomplete="off" required>
+            <label class="custom-file-label" for="file">Choose file</label>
+        </div>
+        <br><br>
+        <div class="d-flex justify-content-center">
+            <div class="form-check form-check-inline">
+                <input class="form-check-input" type="checkbox" id="strings" name="strings">
+                <label class="form-check-label" for="strings">File Strings</label>
+            </div>
+
+            <div class="form-check form-check-inline">
+                <input class="form-check-input" type="checkbox" id="ped" name="ped">
+                <label class="form-check-label" for="ped">PE Details</label>
+            </div>
+
+            <div class="form-check form-check-inline">
+                <input class="form-check-input" type="checkbox" id="engine" name="engine">
+                <label class="form-check-label" for="engine">Check Sources</label>
+            </div>
+
+        </div>
+        <br>
+        <button type="submit" class="container-fluid btn btn-primary" onclick="loading();" value="submit" disabled>
+            Submit
+        </button>
+    </form>
+</div>
+<script>
+   $('input[type="file"]').change(function(e){
+        var fileName = e.target.files[0].name;
+        $('.custom-file-label').html(fileName);
+        $('button:submit').prop('disabled', !$(this).val());
+    });
+
+</script>
+{% endblock %}

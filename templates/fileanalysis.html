@@ -1,0 +1,208 @@
+{% extends 'base.html' %}
+
+{% block head %}
+<style>
+.flex-container {
+  display: flex;
+}
+.flex-container > div {
+  margin: 10px;
+  padding: 20px;
+}
+body { overflow: auto; }
+
+</style>
+<title>File Analysis</title>
+{% endblock %}
+
+{% block body %}
+<div class="overflow-auto container-fluid">
+    {% if result.get('fileInfo') %}
+    <div class="row mt-3">
+        <div class="col-sm-9">
+            <h2>FILE INFO</h2>
+            <table class="table table-sm table-hover">
+                {% for key, value in result.get('fileInfo').items() %}
+                <tr>
+                    <td> {{ key }}</td>
+                    <td style=" word-break: break-all;"> {{ value }}</td>
+                </tr>
+                {% endfor %}
+            </table>
+        </div>
+
+    </div>
+    {% endif %}
+
+    {% if result.get('peInfo').get('errorState') == False %}
+    <div class="row mt-3">
+        {% if result.get('peInfo').get('basic') %}
+        <div class="col-sm-6">
+            <h2>PE BASIC</h2>
+            <table class="table table-sm table-hover">
+                {% for key, value in result.get('peInfo').get('basic').items() %}
+                <tr>
+                    <td> {{ key }}</td>
+                    <td style=" word-break: break-all;"> {{ value }}</td>
+                </tr>
+                {% endfor %}
+            </table>
+        </div>
+        {% endif %}
+
+        {% if result.get('peInfo').get('sectionSize') %}
+        <div class="col-sm-6">
+            <h2>SECTION SIZES</h2>
+            <table class="table table-sm table-hover">
+                {% for value in result.get('peInfo').get('sectionSize') %}
+                <tr>
+                    <td> {{ value.get('name') }}</td>
+                    <td style=" word-break: break-all;"> {{ value.get('vAddress') }}</td>
+                    <td style=" word-break: break-all;"> {{ value.get('vSize') }}</td>
+                    <td style=" word-break: break-all;"> {{ value.get('raw') }}</td>
+                </tr>
+                {% endfor %}
+            </table>
+        </div>
+        {% endif %}
+
+        {% if result.get('peInfo').get('headerDump') %}
+        <div class="col-sm-6">
+        <h2>{{ result.get('peInfo').get('headerDump')[0][0] }} </h2>
+        <table class="table table-sm table-hover">
+            {% for n in range(1, result.get('peInfo').get('headerDumpLength')) %}
+            <tr>
+                {% for x in range(0,4) %}
+                <td style=" word-break: break-all;"> {{
+                    result.get('peInfo').get('headerDump')[n][x] }}
+                </td>
+                {% endfor %}
+            </tr>
+            {% endfor %}
+        </table>
+    </div>
+        {% endif %}
+
+        {% if result.get('peInfo').get('directoryNames') %}
+        <div class="col-sm-6">
+            <h2>DIRECTORY NAMES</h2>
+            <table class="table table-sm table-hover">
+                {% for value in result.get('peInfo').get('directoryNames') %}
+                <tr>
+                    <td style=" word-break: break-all;"> {{ value }}</td>
+                </tr>
+                {% endfor %}
+            </table>
+        </div>
+        {% endif %}
+
+        {% if result.get('peInfo').get('allSection') %}
+        {% for n in range(0, result.get('peInfo').get('SectionLength')) %}
+        <div class="col-sm-4">
+            <h2>{{ result.get('peInfo').get('allSection')[n][0] }}</h2>
+            <table class="table table-sm table-hover">
+                {% for value in range(1,result.get('peInfo').get('allSectionLength')[n],4) %}
+                <tr>
+                    <td style="word-break: break-all; width:4%">{{
+                        result.get('peInfo').get('allSection')[n][value] }}
+                    </td>
+                    <td style="word-break: break-all; width:4%">{{
+                        result.get('peInfo').get('allSection')[n][value+1] }}
+                    </td>
+                    <td style="word-break: break-all; width:12%">{{
+                        result.get('peInfo').get('allSection')[n][value+2] }}
+                    </td>
+                    <td style="word-break: break-all; width:10%">{{
+                        result.get('peInfo').get('allSection')[n][value+3] }}
+                    </td>
+                </tr>
+
+                {% endfor %}
+            </table>
+        </div>
+        {% endfor %}
+        {% endif %}
+
+    </div>
+    {% endif %}
+
+    {% if result.get('asciiStrings') %}
+    <div class="row mt-3">
+        <div class="col-sm-12">
+            <a href="/file/strings" target="_blank">
+                <button type="submit" class="container-fluid btn btn-info">View Strings</button>
+            </a>
+        </div>
+    </div> <br>
+    {% endif %}
+
+    {% if result.get('engine') %}
+    <div class="row mt-3">
+        {% for data in result.get('engine') %}
+        <div class="col-sm-6">
+            <table class="table table-sm table-hover">
+                {% for key, value in data.items() %}
+                <h3>{{key}}</h3>
+                {% for key1, value1 in value.items() %}
+                <tr>
+                    {% if key1 == 'Link' %}
+                    <th> {{ key1 }}</th>
+                    <td style=" word-break: break-all;"><a href="{{value1}}"
+                                                                                       target="_blank">{{ value1 }}</a>
+                    </td>
+                    {% else %}
+                    <th> {{ key1 }}</th>
+                    <td style=" word-break: break-all;"> {{ value1 }}</td>
+                    {% endif %}
+                </tr>
+                {% endfor %}
+                {% endfor %}
+            </table>
+        </div>
+        {% endfor %}
+    </div>
+    {% endif %}
+
+    {% if result.get('peInfo').get('exports') %}
+    <div class="col-sm-6">
+        <h2>EXPORTS</h2>
+        <table class="table table-sm table-hover">
+            <th>Export Name</th>
+            <th>Address</th>
+            {% for x in result.get('peInfo').get('exports') %}
+            <tr>
+                <td style=" word-break: break-all;"> {{ x.get('name') }}</td>
+                <td style=" word-break: break-all;"> {{ x.get('address') }}</td>
+            </tr>
+            {% endfor %}
+        </table>
+    </div>
+    {% endif %}
+
+    {% if result.get('peInfo').get('imports') %}
+    <h2>IMPORTS</h2>
+    <div class="row mt-3  flex-container">
+        {% for start in result.get('peInfo').get('imports') %}
+        {% for key, value in start.items() %}
+        <div>
+            <table class="table table-sm table-hover">
+                {% if value[0] %}
+                <h4> {{ key }}</h4>
+                <td> Import Name</td>
+                <td> Address</td>
+                {% endif %}
+                {% for x in value %}
+                <tr>
+                    <td style=" word-break: break-all;"> {{ x.get('name') }}</td>
+                    <td style=" word-break: break-all;"> {{ x.get('address') }}</td>
+                </tr>
+                {% endfor %}
+            </table>
+        </div>
+        {% endfor %}
+        {% endfor %}
+    </div>
+    {% endif %}
+
+</div>
+{% endblock %}

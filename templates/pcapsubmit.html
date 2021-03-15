@@ -1,0 +1,68 @@
+{% extends 'base.html' %}
+
+{% block head %}
+<style>
+    body { align-items: center; justify-content: center; overflow: hidden; }
+</style>
+<title>PCAP Submission</title>
+{% endblock %}
+
+{% block body %}
+<div id="content" class="container">
+    <div class="d-flex justify-content-center">
+        <h1>PCAP Analysis</h1>
+    </div>
+    <br>
+    <form action="{{ url_for('pcapAnalyzer') }}" method="post" enctype="multipart/form-data">
+        <div class="custom-file">
+            <input class="custom-file-input" type="file" id="file" name="file" autocomplete="off" required>
+            <label class="custom-file-label" for="file">Choose file</label>
+        </div><br><br>
+        <div class="d-flex justify-content-center">
+            <div class="form-check form-check-inline">
+                <input class="form-check-input" type="checkbox" id="abuse" name="abuse">
+                <label class="form-check-label" for="abuse">Check Abuse IP</label>
+            </div>
+
+            <div class="form-check form-check-inline">
+                <input class="form-check-input" type="checkbox" id="virus" name="virus">
+                <label class="form-check-label" for="virus">Check VirusTotal</label>
+            </div>
+
+            <div class="form-check form-check-inline">
+                <input class="form-check-input" type="checkbox" id="urlscan" name="urlscan">
+                <label class="form-check-label" for="urlscan">Check URLScan</label>
+            </div>
+
+            <div class=" form-check form-check-inline">
+                <input class="form-check-input" type="checkbox" id="countTable" name="countTable">
+                <label class="form-check-label" for="countTable">Show IP Count Table</label>
+            </div>
+
+            <div class="form-check form-check-inline">
+                <input class="form-check-input" type="checkbox" id="bot" name="bot">
+                <label class="form-check-label" for="bot">Show Bytes Over Time Graph</label>
+            </div>
+
+            <div class="form-check form-check-inline">
+                <input class="form-check-input" type="checkbox" id="urls" name="urls">
+                <label class="form-check-label" for="urls">Extract URLS</label>
+            </div>
+
+        </div>
+        <br>
+        <button type="submit" class="container-fluid btn btn-primary" onclick="loading();" value="submit" disabled>
+            Submit
+        </button>
+    </form>
+</div>
+<script>
+   $('input[type="file"]').change(function(e){
+        var fileName = e.target.files[0].name;
+        $('.custom-file-label').html(fileName);
+        $('button:submit').prop('disabled', !$(this).val());
+    });
+
+
+</script>
+{% endblock %}

@@ -1,0 +1,156 @@
+{% extends 'base.html' %}
+
+{% block head %}
+<style>
+        .header{
+            text-align: center;
+            background-color: rgb(136, 185, 229);
+            height: 70px;
+            line-height: 70px;
+        }
+        .chart{
+            margin-top: 30px;
+            text-align: center;
+        }
+
+</style>
+<title>Analysis</title>
+{% endblock %}
+
+{% block body %}
+<div class="container-fluid">
+    <div class="row mt-3">
+        {% if result.get('totalIp') %}
+        <div class="col-sm-6">
+            <h2>ALL IP COUNT</h2>
+            <table class="table table-sm table-hover">
+                {% for key, value in result.get('totalIp').items() %}
+                <tr>
+                    <td> {{ key }}</td>
+                    <td style=" word-break: break-all;"> {{ value }}</td>
+                </tr>
+                {% endfor %}
+            </table>
+        </div>
+        {% endif %}
+
+        {% if result.get('totalPub') %}
+        <div class="col-sm-6">
+            <h2>PUBLIC IP COUNT</h2>
+            <table class="table table-sm table-hover">
+                {% for key, value in result.get('totalPub').items() %}
+                <tr>
+                    <td> {{ key }}</td>
+                    <td style=" word-break: break-all;"> {{ value }}</td>
+                </tr>
+                {% endfor %}
+            </table>
+        </div>
+        {% endif %}
+
+        {% if result.get('urls').get('urls') %}
+        <div class="col-sm-12">
+            <h2>URLS</h2>
+            <table class="table table-sm table-hover">
+                {% for key, values in result.get('urls').items() %}
+                <th>IP</th>
+                <th>METHOD</th>
+                <th>URL</th>
+                {% for value in values %}
+                <tr>
+                    <td> {{ value[0] }}</td>
+                    <td> {{ value[1] }}</td>
+                    <td style=" word-break: break-all;"> {{ value[2] }}</td>
+                </tr>
+                {% endfor %}
+                {% endfor %}
+            </table>
+        </div>
+        {% endif %}
+
+        {% if result.get('graph') %}
+        <div class="col-sm-12">
+            <h2>BYTES OVER TIME</h2>
+            <div id="chart" class="chart"></div>
+        </div>
+        {% endif %}
+    </div>
+
+    <div class="row mt-3">
+        {% if result.get('EngineData') %}
+        <div class="col-sm-12">
+            <h2>SOURCES RESULTS</h2>
+            <table class="table table-sm table-hover">
+                <th>
+                    <tr>
+                        <th>IP</th>
+                        <th>Abuse Ref</th>
+                        <th>Abuse Score</th>
+                        <th>Virustotal Ref</th>
+                        <th>Virustotal Score</th>
+                        <th>UrlScan Ref</th>
+                        <th>UrlScan Score</th>
+                    </tr>
+                </th>
+                <tbody>
+                {% for x in result.get('EngineData') %}
+                <tr>
+                    {% for ip, value in x.items() %}
+                    <td> {{ ip }}</td>
+
+                    {% for engine in result.get('engines') %}
+                    {% if engine in value.keys() %}
+                    <td> {{ value.get(engine) }}</td>
+                    {% else %}
+                    <td></td>
+                    {% endif %}
+
+                    {% endfor %}
+                    {% endfor %}
+                </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        {% endif %}
+
+    </div>
+</div>
+<script type="text/javascript">
+        var graphs = {{result.get('graph') | safe}};
+        var layout = {
+        title: {
+            text:'Bytes Over Time',
+            font: {
+              family: 'Courier New, monospace',
+              size: 24
+            },
+            xref: 'paper',
+            x: 0.05,
+          },
+          xaxis: {
+            title: {
+              text: 'Time',
+              font: {
+                family: 'Courier New, monospace',
+                size: 18,
+                color: '#7f7f7f'
+              }
+            },
+          },
+          yaxis: {
+            title: {
+              text: 'Bytes',
+              font: {
+                family: 'Courier New, monospace',
+                size: 18,
+                color: '#7f7f7f'
+              }
+            }
+          }
+        };
+        Plotly.plot('chart',graphs,layout);
+
+</script>
+{% endblock %}
+

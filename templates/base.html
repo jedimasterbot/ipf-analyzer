@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="icon" href="../static/icon.png" type="image/png" sizes="16x16">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
+          integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+            integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+            crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"
+            integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
+            crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"
+            integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy"
+            crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.6/d3.min.js"></script>
+    <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+    <style>
+        body { margin-top: 50px; background-image:url(/static/bg.jpg);
+        background-size: 1920px;
+        min-height: 100%;  min-height: 100vh; display: flex; }
+        h1 { font-size:40px; color:#2B5452; }
+        table, th, td { border: 2px solid #2B5452; }
+        * { font-family: 'Knewave', cursive; font-weight:450; font-size:1.02em; color:#2B5452; }
+        div#loading {
+        width: 351px;
+        height: 351px;
+        display: none;
+        background: url(/static/loading.gif) no-repeat;
+        cursor: wait;
+        }
+    </style>
+    <script type="text/javascript">
+        function loading(){
+            $("#loading").show();
+            $("#content").hide();
+        }
+    </script>
+    {% block head %} {% endblock %}
+</head>
+
+<body>
+<!--<a href='https://www.freepik.com/vectors/background'>Background vector created by kjpargeter - www.freepik.com</a>-->
+<div id="loading">
+    <div class="d-flex justify-content-center">
+        <h1>PROCESSING</h1>
+    </div>
+</div>
+<nav class="navbar fixed-top navbar-expand-lg navbar-light">
+    <a class="navbar-brand" href="/">IPF Analyzer</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+            aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav">
+            <li class="nav-item active">
+                <a class="nav-link" href="/">Home<span class="sr-only">(current)</span></a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/submit/ioc">IOC</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/submit/pcap">PCAP</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/submit/file">FILE</a>
+            </li>
+        </ul>
+    </div>
+</nav>
+
+{% block body %} {% endblock %}
+</body>
+</html>

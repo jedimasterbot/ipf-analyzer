@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+
+{% block head %}
+<style>
+    body { align-items: center; justify-content: center; overflow: hidden; }
+
+</style>
+<title>IOC Submission</title>
+{% endblock %}
+
+{% block body %}
+<div id="content" class="container">
+    <div class="d-flex justify-content-center">
+        <h1>Indicator Of Compromise Analysis</h1>
+    </div>
+    <form action="{{ url_for('validate') }}" method="post">
+        <div class="form-group">
+            <label class="d-flex justify-content-center">Indicator Of Compromise (IOCs)</label>
+            <input type="text" class="form-control" name="ioc" placeholder="Enter IOC">
+        </div>
+        <button type="submit" class="container-fluid btn btn-primary" onclick="loading();">Submit</button>
+    </form>
+</div>
+{% endblock %}

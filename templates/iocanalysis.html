@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+
+{% block head %}
+<title>Analysis</title>
+{% endblock %}
+
+{% block body %}
+<div class="container-fluid">
+    <div class="row mt-3">
+        {% for data in result %}
+        <div class="col-sm-6">
+            <table class="table table-sm table-hover">
+                {% for key, value in data.items() %}
+                <h3>{{key}}</h3>
+                {% for key1, value1 in value.items() %}
+                <tr>
+                    {% if key1 == 'Link' %}
+                    <th> {{ key1 }}</th>
+                    <td style=" word-break: break-all;"><a href="{{value1}}" target="_blank">{{ value1 }}</a>
+                    </td>
+                    {% else %}
+                    <th> {{ key1 }}</th>
+                    <td style=" word-break: break-all;"> {{ value1 }}</td>
+                    {% endif %}
+                </tr>
+                {% endfor %}
+                {% endfor %}
+            </table>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

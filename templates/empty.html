@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+
+{% block head %}
+<style>
+        body { background-color: #c6d4e2b5;
+        min-height: 100%;  min-height: 100vh; display: flex; align-items: center; justify-content: center;}
+        div#loading {
+        width: 351px;
+        height: 351px;
+        display: none;
+        background: url(/static/loading2.gif) no-repeat;
+        cursor: wait;
+        }
+</style>
+{% endblock %}
+
+{% block body %}
+<div class="container">
+    <div class="row">
+        <div class="col-md-6 col-xs-6 text-right">
+            <img src="../static/NoData.png" />
+        </div>
+        <div class="col-md-6 col-xs-6 text-left">
+            <h1>{{ result }}</h1>
+        </div>
+    </div>
+</div>
+
+
+{% endblock %}
