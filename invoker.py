@@ -1,5 +1,5 @@
 import os
-
+from configparser import ConfigParser
 from flask import Flask, render_template, request
 
 from sources.reporter import mainReporter, ReporterPcap, ReporterFile
@@ -11,6 +11,8 @@ app.config['UPLOAD_PATH'] = 'uploads'
 app.jinja_options['extensions'].append('jinja2.ext.loopcontrols')
 fileStrings = {}
 
+config_object = ConfigParser()
+config_object.read("config.ini")
 
 @app.route('/')
 @app.route('/submit')
@@ -129,4 +131,6 @@ def fileAnalyzer():
 
 
 if __name__ == '__main__':
-    app.run(host='127.0.0.1', port=5002, debug=True)
+    host_server = config_object["SERVER"]["HOST"]
+    host_port = config_object["SERVER"]["PORT"]
+    app.run(host=host_server, port=host_port, debug=True)
