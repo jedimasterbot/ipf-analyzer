@@ -5,7 +5,7 @@ empty = {}
 abuseUrl = 'https://api.abuseipdb.com/api/v2/check'
 
 # Cape sandbox URL and Data Gathered
-capeUrl = 'https://www.capesandbox.com/api/tasks/extendedsearch/'
+capeUrl = 'https://www.capesandbox.com/apiv2/tasks/extendedsearch/'
 
 # Hybrid Analysis URLS and Data Gathered
 hybridUrlSearch = 'https://www.hybrid-analysis.com/api/v2/search/hash'
