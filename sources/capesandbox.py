@@ -1,13 +1,15 @@
 import copy
 import iocextract
 import requests
+from common.apiKeys import capeToken
 from common.config import capeUrl, empty
 
 
 def allReport(usrInput, argType):
     local_cape_val = []
     data = {'option': argType, 'argument': usrInput}
-    response = requests.post(capeUrl, data=data)
+    headers = {'Authorization': f'Token {capeToken}'}
+    response = requests.post(capeUrl, headers=headers, data=data)
 
     if response.status_code == 200:
         res = response.json()
@@ -24,8 +26,8 @@ def allReport(usrInput, argType):
                 suri_http_cnt = responseData[i].get('suri_http_cnt')
                 suri_tls_cnt = responseData[i].get('suri_tls_cnt')
                 virustotal_summary = responseData[i].get('virustotal_summary')
-                task_url = 'https://www.capesandbox.com/api/files/view/id/%s/' % tId
-                t_req = requests.get(task_url)
+                task_url = 'https://www.capesandbox.com/apiv2/files/view/id/%s/' % tId
+                t_req = requests.get(task_url, headers=headers)
                 dataReport = t_req.json()
                 capeFramework.update({'Action On': usrInput})
                 capeFramework.update({'Package': package})
@@ -53,6 +55,8 @@ def allReport(usrInput, argType):
 
 
 def CapeReporter(values):
+    if not capeToken:
+        return [{'Cape Sandbox': {'Cape Sandbox Token': 'Cape Sandbox Token Not Found'}}]
     cape_val = []
     for usrInput in values:
         chk_ip = list(iocextract.extract_ipv4s(usrInput))
